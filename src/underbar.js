@@ -7,6 +7,7 @@
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
   _.identity = function(val) {
+    return val;
   };
 
   /**
@@ -19,7 +20,7 @@
    *
    *
    * IMPORTANT NOTE!
-   * ===========
+   *  ===========
    *
    * The .first function is implemented for you, to help guide you toward success
    * in your work on the following functions. Whenever you see a portion of the
@@ -36,7 +37,22 @@
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
+  /*
   _.last = function(array, n) {
+    if (n===undefined)
+      return array[array.length-1];
+    else
+    {
+      if (n<array.length)
+        return array.slice(array.length-n,array.length);
+      else
+        return array;
+    }
+  };
+  */
+  // shorter method of writing above statement:
+  _.last = function(array, n) {
+    return n === undefined ? array[array.length-1] : n<array.length ? array.slice(array.length-n,array.length) : array;
   };
 
   // Call iterator(value, key, collection) for each element of collection.
