@@ -61,6 +61,20 @@
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
+    //console.log(Array.isArray(collection));
+    if (Array.isArray(collection)){
+      for (var i=0;i<collection.length;i++){
+        //console.log(i,collection[i]);
+        iterator(collection[i],i,collection);
+      }
+    }
+    else{
+      //console.log('Not an array');
+      for (var i in collection){
+        //console.log("Object",i,collection[i]);
+        iterator(collection[i],i,collection);
+      }
+    }
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -82,21 +96,65 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var filtered=[];
+    _.each(collection, function(item,index){
+      if (test(item)===true){
+        filtered.push(item);
+      }
+    })
+    return filtered;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
+    var anti=function(item){
+      return test(item)===true ? false : true;
+    };
     // TIP: see if you can re-use _.filter() here, without simply
-    // copying code in and modifying it
+    // copying code in and modifying   it
+    return _.filter(collection,anti); 
+
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var duplicate=[];
+    /*
+    _.each(array,function(item){duplicate.push(item);});
+    var toBeDeleted=[];
+    console.log('Array',duplicate);
+    _.each(duplicate,function(item,index){
+      var foundIndex=_.indexOf(duplicate.slice(index+1),item);
+      if (foundIndex!==-1){
+        console.log('index',index,'item', item,'found at:',index+foundIndex+1);
+        toBeDeleted.push(index+foundIndex+1);
+      }
+    });
+    console.log(toBeDeleted);
+    
+    var popped=0;
+    _.each(toBeDeleted, function(item){
+      console.log(item, popped, duplicate);
+      duplicate.splice(item-popped,1);
+      popped++;
+    });
+    */
+    _.each(array,function(item,index){
+      if (_.indexOf(duplicate,item)===-1)
+        duplicate.push(item);});
+    //console.log("duplicate end",duplicate,array);
+    return duplicate;
   };
 
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
+    var mapped=[];
+    _.each(collection,function(item){
+      //console.log(iterator(item),item);
+      mapped.push(iterator(item));
+    });
+    return mapped;
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
@@ -141,6 +199,20 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    if (accumulator===undefined){
+      //console.log('collection',accumulator,collection[0]);
+      var result=collection[0];
+    }
+    else {
+      var result=accumulator;
+    }
+    _.each(collection,function(item,index){
+      if (accumulator!==undefined || index!==0){
+      result=iterator(result,item);
+      //console.log('Result',result);
+    }
+    });
+    return result;
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -159,6 +231,11 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    console.log(_.reduce(collection, function(allTrue,item){
+        if (iterator(item)===false){
+          return false;
+        }
+    },false))
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
