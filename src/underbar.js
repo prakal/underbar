@@ -231,17 +231,36 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-    console.log(_.reduce(collection, function(allTrue,item){
-        if (iterator(item)===false){
-          return false;
+    //console.log('---');
+    var condition=true;
+    if (!iterator) {iterator= _.identity;}
+    return _.reduce(collection, function(allTrue,item){
+        //console.log('computed:',iterator(item));
+        if (iterator(item)==false || item===null || item===undefined){
+          condition=false;
         }
-    },false))
+        return condition;
+    },true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+    //console.log('---');
     // TIP: There's a very clever way to re-use every() here.
+    if(!foundOne) {
+      //console.log('found one unassigned!');
+      var foundOne=false;
+    }
+    var any=function(item){
+      if (!iterator) {iterator= _.identity;}
+      //console.log('Iterated item',iterator(item));
+      if (iterator(item) && foundOne===false){
+        foundOne=true;
+      }
+    };
+    _.every(collection,any);
+    return foundOne;
   };
 
 
