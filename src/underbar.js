@@ -97,7 +97,7 @@
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
     var filtered=[];
-    _.each(collection, function(item,index){
+    _.each(collection, function(item){
       if (test(item)===true){
         filtered.push(item);
       }
@@ -283,11 +283,49 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var extended={};
+    var testEmpty=true;
+    //console.log('Extend Args',arguments,'Obj',obj);
+    for (var key in arguments){
+      //console.log('Key',key);
+      for (var key2 in arguments[key]){
+        //console.log(arguments[key],key2,arguments[key][key2]);
+        testEmpty=false;
+      }
+      if (key2 !== undefined)
+        extended[key2]=arguments[key][key2];
+    }
+    //console.log('extended',extended);
+    if (testEmpty===true){
+      //console.log('original',obj);
+      return obj;
+    }
+    return extended;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var defaulted={};
+    var testEmpty=true;
+    //console.log('---',obj);
+    for (var key in arguments){
+      //console.log('Defaults Key',key,arguments[key]);
+      for (var key2 in arguments[key]){
+        //console.log(arguments[key],key2,arguments[key][key2]);
+        testEmpty=false;
+      //another way to test if the property already exists, is the hasOwnProperty prototype:
+      //console.log(arguments[key],key2,'hasOwnProperty',defaulted.hasOwnProperty(key2));
+      if (key2 !== undefined && defaulted[key2]===undefined){
+        //console.log('initialized a value here');
+        defaulted[key2]=arguments[key][key2];
+        }
+      }
+    }
+    console.log('defaulted',defaulted);
+    if (testEmpty===true)
+      return obj;
+    return defaulted;
   };
 
 
