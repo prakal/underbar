@@ -322,7 +322,7 @@
         }
       }
     }
-    console.log('defaulted',defaulted);
+    //console.log('defaulted',defaulted);
     if (testEmpty===true)
       return obj;
     return defaulted;
@@ -368,9 +368,47 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function(func) {
-  };
 
+  _.memoize = function(func) {
+    var store={};
+    return function(){
+      var argList=Array.prototype.slice.call(arguments);
+      //console.log(argList);
+      if (store.hasOwnProperty(argList)){
+        //console.log("Matched from cache",store[argList]);
+        return store[argList];
+      }
+      else {
+        //console.log("No matching property.")
+        store[argList]=func.apply(this,argList);
+        //console.log('store',store);
+        return store[argList];
+      }
+    };
+  };
+/*
+  _.memoize = function(func) {
+    var store;
+    var innerArgs;
+    var ReqArgs;
+    console.log('arguments of outer function',arguments);
+    store=_.once(function(func){
+      innerArgs={};
+      console.log(arguments);
+      _.each(arguments,function(item,index,collection){
+        innerArgs[index]=item;
+        console.log(index,item);
+      });
+      console.log('arguments of inner function:',innerArgs);
+      ReqArgs=innerArgs;
+      //console.log(typeof innerArgs);
+      //return innerArgs;
+    });
+    console.log('req',ReqArgs);
+    //console.log('inner argument',store.apply(this,func));
+    return store;
+  };
+*/
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   //
@@ -378,6 +416,16 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args=Array.prototype.slice.call(arguments);
+    //console.log(args,args.slice(2));
+    if (args.length>2){
+      //console.log('Arguments provided');
+      setTimeout(func.apply(this,args.slice(2)),wait);
+    }
+    else {
+      //console.log('No arguments at all');
+      setTimeout(func,wait);
+    }
   };
 
 
@@ -392,6 +440,12 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    //var newArray=array.slice();
+    console.log('----',array);
+    _.each(array,function(item,index){
+      console.log(index,item);
+      console.log('randomized',Math.floor(Math.random()*array.length));
+    });
   };
 
 
