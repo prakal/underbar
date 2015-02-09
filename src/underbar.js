@@ -369,9 +369,11 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
 
+  //eg. _.memoize(add(1,2)), so func = add(1,2), and args=[1,2]
+  //
   _.memoize = function(func) {
     var store={};
-    return function(){
+    var anon= function(){
       var argList=Array.prototype.slice.call(arguments);
       //console.log(argList);
       if (store.hasOwnProperty(argList)){
@@ -385,6 +387,7 @@
         return store[argList];
       }
     };
+    return anon;
   };
 /*
   _.memoize = function(func) {
@@ -441,10 +444,10 @@
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
     //var newArray=array.slice();
-    console.log('----',array);
+    //console.log('----',array);
     _.each(array,function(item,index){
-      console.log(index,item);
-      console.log('randomized',Math.floor(Math.random()*array.length));
+      //console.log(index,item);
+      //console.log('randomized',Math.floor(Math.random()*array.length));
     });
   };
 
