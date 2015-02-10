@@ -370,6 +370,7 @@
   // instead if possible.
 
   //eg. _.memoize(add(1,2)), so func = add(1,2), and args=[1,2]
+  //so, _.memoize(anything) will lead to running anon(), as it is returned in _.memoize. anon can manipulate store, as the inner function can manipulate outer function's variables. 
   //
   _.memoize = function(func) {
     var store={};
