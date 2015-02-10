@@ -444,12 +444,24 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
-    //var newArray=array.slice();
-    //console.log('----',array);
+    var rArray=[];
+    while (rArray.length!=array.length){
+      var Rand=Math.floor(Math.random()*array.length);
+      var index=_.indexOf(rArray,Rand);
+      //console.log(Rand,rArray,index);
+      if (index==-1){
+        rArray.push(Rand);
+      }
+    }
+    console.log('----Array',array);
+    var newArray=[];
     _.each(array,function(item,index){
-      //console.log(index,item);
-      //console.log('randomized',Math.floor(Math.random()*array.length));
+      console.log(index,item,rArray[index]);
+      //putting value of item into the index of the random array, as rArray contains randomized numbers until length of array.
+      newArray[rArray[index]]=item;
     });
+      console.log('randomized Array',newArray);
+      return newArray;
   };
 
 
