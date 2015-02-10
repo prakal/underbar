@@ -446,23 +446,46 @@
 
   // Need to fix this, so it passes third test.
   _.shuffle = function(array) {
-    var rArray=[];
-    while (rArray.length!=array.length){
-      var Rand=Math.floor(Math.random()*array.length);
-      var index=_.indexOf(rArray,Rand);
-      //console.log(Rand,rArray,index);
-      if (index==-1){
-        rArray.push(Rand);
-      }
-    }
-    //console.log('----Array',array);
+    var randGen=function(){
+      var rArray=[];
+      while (rArray.length!=array.length){
+        var Rand=Math.floor(Math.random()*array.length);
+        var index=_.indexOf(rArray,Rand);
+        //console.log(Rand,rArray,index);
+        if (index==-1){
+          rArray.push(Rand);
+          }
+        }
+      return rArray;
+    };
+
+    var isSame=function(ar1,ar2){
+      var condition=true;
+      _.each(ar1,function(item,index){
+        //console.log(item,ar2[index]);
+        if (item!==ar2[index]){
+          condition=false;
+        }
+      });
+      //console.log(condition);
+      return condition;
+    };
+    //console.log('----');
     var newArray=[];
+    while (newArray.length<1 || isSame(array,newArray)===true){
+      //console.log(isSame(array,newArray),array,newArray);
+      var rArray=randGen();
+      //console.log(array,'random array',rArray,newArray);
     _.each(array,function(item,index){
       //console.log(index,item,rArray[index]);
       //putting value of item into the index of the random array, as rArray contains randomized numbers until length of array.
+      //console.log(item,rArray[index],index);
       newArray[rArray[index]]=item;
+      //console.log('new array looks like',newArray);
     });
+   }
       //console.log('randomized Array',newArray);
+      //console.log(isSame(array,newArray),array,newArray);
       return newArray;
   };
 
