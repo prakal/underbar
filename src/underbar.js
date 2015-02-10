@@ -443,6 +443,8 @@
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
+
+  // Need to fix this, so it passes third test.
   _.shuffle = function(array) {
     var rArray=[];
     while (rArray.length!=array.length){
@@ -453,14 +455,14 @@
         rArray.push(Rand);
       }
     }
-    console.log('----Array',array);
+    //console.log('----Array',array);
     var newArray=[];
     _.each(array,function(item,index){
-      console.log(index,item,rArray[index]);
+      //console.log(index,item,rArray[index]);
       //putting value of item into the index of the random array, as rArray contains randomized numbers until length of array.
       newArray[rArray[index]]=item;
     });
-      console.log('randomized Array',newArray);
+      //console.log('randomized Array',newArray);
       return newArray;
   };
 
@@ -476,6 +478,25 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    var what=typeof functionOrKey;
+    //console.log('---',functionOrKey,what);
+    var returnList=[];
+    _.each(collection,function(item){
+      if (what==='function'){
+        var applied=functionOrKey.call(item);
+      }
+      else{
+        if (what==='string'){
+          //hackish, need to know how this works. I can input anything before the [], and get the desired result. I think it pulls the property from any string, as all strings have toUppercase property.
+          var prop= new String()[functionOrKey];
+          var applied=prop.apply(item);
+          // console.log('string now looks like',applied);
+        }
+      }
+      returnList.push(applied);
+    });
+    //console.log(returnList);
+    return returnList;
   };
 
   // Sort the object's values by a criterion produced by an iterator.
