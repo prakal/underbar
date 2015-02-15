@@ -527,6 +527,50 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    var newCollection={};
+    // var modifier=function(){
+    //   console.log('i is',iterator);
+    // }(iterator);
+    var swapValues=function(arr,v1,v2){
+      var temp=arr[v1];
+      arr[v1]=arr[v2];
+      arr[v2]=temp; 
+    };
+    var formArray=function(object){
+      var array=[];
+      _.each(object,function(item){
+        array.push(item);
+      });
+      return array;
+    };
+    var collArray=formArray(collection);
+    function sortArray(array,inputArray){
+    for (var i=0;i<array.length;i++){
+      for (var j=0;j<i;j++){
+          console.log(i,inputArray[i],'and',j,inputArray[j],'array',array);
+        if(inputArray[i]<inputArray[j] || inputArray[j]===undefined){
+          swapValues(array,i,j);
+          swapValues(inputArray,i,j);
+        }
+      }
+    }
+    return array;
+  };
+    var inputArray=[];
+    _.each(collection,function(item,index){
+      if (typeof iterator==='function'){
+        inputArray.push(iterator(item));
+      }
+      else{
+        var prop = item[iterator];
+        console.log('prop',prop,'iterator',iterator);
+        inputArray.push(prop);
+      }
+    });
+    // _.invoke(collection,iterator);
+    collection=sortArray(collArray,inputArray);
+    console.log(collection);
+    return collection;
   };
 
   // Zip together two or more arrays with elements of the same index
