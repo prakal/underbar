@@ -547,10 +547,15 @@
     function sortArray(array,inputArray){
     for (var i=0;i<array.length;i++){
       for (var j=0;j<i;j++){
-          console.log(i,inputArray[i],'and',j,inputArray[j],'array',array);
+          // console.log('i',i,inputArray[i],'and','j',j,inputArray[j],'array',array);
+
         if(inputArray[i]<inputArray[j] || inputArray[j]===undefined){
-          swapValues(array,i,j);
-          swapValues(inputArray,i,j);
+          // console.log('reached check-point');
+          if(!(inputArray[i]===undefined && inputArray[j]===undefined)){
+            // console.log('swapped');
+            swapValues(array,i,j);
+            swapValues(inputArray,i,j);
+          }
         }
       }
     }
