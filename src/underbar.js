@@ -568,13 +568,12 @@
       }
       else{
         var prop = item[iterator];
-        console.log('prop',prop,'iterator',iterator);
         inputArray.push(prop);
       }
     });
     // _.invoke(collection,iterator);
     collection=sortArray(collArray,inputArray);
-    console.log(collection);
+    // console.log(collection);
     return collection;
   };
 
@@ -584,6 +583,37 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    // console.log(arguments);
+    var longest=0;
+    var line=[];
+    var zipFull=[];
+    _.each(arguments,function(item){
+      zipFull.push([]);
+    });
+    // console.log('zipfull',zipFull);
+    _.each(arguments,function(item,index){
+      _.each(item,function(item2,index2){
+        // console.log(index2,item2);
+        zipFull[index2].push(item2);
+      });
+      if (item.length>longest){
+        // console.log('trigger');
+        longest=item.length;
+        line=item;
+      }
+      console.log(index,item,item.length);
+    });
+    // console.log('zipFull',zipFull);
+    // console.log('longest',longest,'line',line);
+    var zipped=[];
+    for(var i=0;i<longest;i++){
+      for (var j=0;j<longest-zipFull[i].length;j++){
+        // console.log('i',i,'j',j);
+        zipFull[i].push(undefined);
+      }
+    }
+    console.log('zF',zipFull);
+    return zipFull;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
