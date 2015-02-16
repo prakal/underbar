@@ -687,7 +687,7 @@
         newArray.push(item);
       }
     });
-    // console.log('newarray',newArray);
+    //  console.log('newarray',newArray);
     return newArray;
   };
 
@@ -697,6 +697,16 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
-    console.log(arguments);
+    return function(){
+      var g=new Date();
+      console.log('arg',g.getTime(),'call count',func.callCount);
+      if (g.getTime()>wait){
+        func.callCount
+        return func();
+      }
+    };
+    // var arr=Array.prototype.slice.call(arguments));
+    // console.log(setTimeout(func,wait));
+    // func();
   };
 }());
