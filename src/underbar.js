@@ -665,6 +665,7 @@
       }
     });
     console.log('same',same);
+    return same;
   };
 
   // Take the difference between one array and a number of other arrays.

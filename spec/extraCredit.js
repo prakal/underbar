@@ -106,7 +106,7 @@
         var leaders3 = ['moe', 'groucho'];
         var leaders4 = ['moe', 'groucho'];
 
-        expect(_.intersection(stooges, leaders,leaders2,leaders3,leaders4)).to.eql(['moe']);
+        expect(_.intersection(stooges, leaders,leaders2,leaders3,leaders4)).to.eql(['moe','groucho']);
       });      
     });
 
