@@ -100,7 +100,7 @@
         expect(_.intersection(stooges, leaders)).to.eql(['moe']);
       });
       it('should take the set intersection of several arrays', function() {
-        var stooges = ['moe', 'curly', 'larry'];
+        var stooges = ['moe', 'curly', 'larry','groucho'];
         var leaders = ['moe', 'groucho'];
         var leaders2 = ['moe', 'groucho'];
         var leaders3 = ['moe', 'groucho'];
