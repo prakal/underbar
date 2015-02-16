@@ -697,12 +697,19 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    var assim=[];
     return function(){
       var g=new Date();
-      console.log('arg',g.getTime(),'call count',func.callCount);
-      if (g.getTime()>wait){
-        func.callCount
+      // func.callCount
+      assim.push(g.getTime());
+      console.log('arg',g.getTime(),'call count',func.callCount,assim);
+      console.log('r',g%wait);
+      if (func.callCount===0){
         return func();
+      }
+      else{
+        if (g%wait>0 && func.callCount)
+          return func();
       }
     };
     // var arr=Array.prototype.slice.call(arguments));
