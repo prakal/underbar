@@ -641,7 +641,7 @@
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
-    console.log(arguments,Array.isArray(arguments));
+    // console.log('arguments',arguments,Array.isArray(arguments));
     var element;
     var same=[];
     var line1=arguments[0];
@@ -652,25 +652,43 @@
     _.each(line1,function(item2){
       var count=0;
       _.each(arr.slice(1),function(item){
-        console.log(item2,item,_.indexOf(item,item2));
+        // console.log(item2,item,_.indexOf(item,item2));
         if (_.indexOf(item,item2)!==-1){
-          console.log('match found');
+          // console.log('match found');
           count++;
         }
       });
       // console.log(index,item);
-      console.log('count is',count);
+      // console.log('count is',count);
       if (count===limit-1){
         same.push(item2);
       }
     });
-    console.log('same',same);
+    // console.log('same',same);
     return same;
   };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    // console.log(arguments);
+    var newArray=[];
+    var remove=[];
+    var arr=Array.prototype.slice.call(arguments);
+    // console.log('arr',arr);
+    _.each(arr.slice(1),function(item,index){
+      // console.log('array',array,'item',item,'intersection',_.intersection(array,item));
+      remove.push(_.intersection(array,item));
+    });
+    remove=_.flatten(remove);
+    _.each(array,function(item){
+      // console.log(array,item,_.indexOf(remove,item));
+      if (_.indexOf(remove,item)===-1){
+        newArray.push(item);
+      }
+    });
+    // console.log('newarray',newArray);
+    return newArray;
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
@@ -679,5 +697,6 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    console.log(arguments);
   };
 }());
