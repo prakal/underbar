@@ -601,7 +601,7 @@
         longest=item.length;
         line=item;
       }
-      console.log(index,item,item.length);
+      // console.log(index,item,item.length);
     });
     // console.log('zipFull',zipFull);
     // console.log('longest',longest,'line',line);
@@ -612,7 +612,7 @@
         zipFull[i].push(undefined);
       }
     }
-    console.log('zF',zipFull);
+    // console.log('zF',zipFull);
     return zipFull;
   };
 
@@ -626,7 +626,7 @@
     }
     
     _.each(nestedArray, function(item){
-      console.log(item,Array.isArray(item));
+      // console.log(item,Array.isArray(item));
       if (Array.isArray(item)===true){
         result= _.flatten(item,result);
       }
@@ -634,13 +634,37 @@
         result.push(item);
       }
     });
-    console.log('flat',result);
+    // console.log('flat',result);
     return result;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    console.log(arguments,Array.isArray(arguments));
+    var element;
+    var same=[];
+    var line1=arguments[0];
+    var limit=arguments.length;
+    // console.log('limit',limit);
+    // console.log('line1',line1);
+    var arr=Array.prototype.slice.call(arguments);
+    _.each(line1,function(item2){
+      var count=0;
+      _.each(arr.slice(1),function(item){
+        console.log(item2,item,_.indexOf(item,item2));
+        if (_.indexOf(item,item2)!==-1){
+          console.log('match found');
+          count++;
+        }
+      });
+      // console.log(index,item);
+      console.log('count is',count);
+      if (count===limit-1){
+        same.push(item2);
+      }
+    });
+    console.log('same',same);
   };
 
   // Take the difference between one array and a number of other arrays.

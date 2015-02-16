@@ -99,6 +99,15 @@
 
         expect(_.intersection(stooges, leaders)).to.eql(['moe']);
       });
+      it('should take the set intersection of several arrays', function() {
+        var stooges = ['moe', 'curly', 'larry'];
+        var leaders = ['moe', 'groucho'];
+        var leaders2 = ['moe', 'groucho'];
+        var leaders3 = ['moe', 'groucho'];
+        var leaders4 = ['moe', 'groucho'];
+
+        expect(_.intersection(stooges, leaders,leaders2,leaders3,leaders4)).to.eql(['moe']);
+      });      
     });
 
     describe('difference', function() {
