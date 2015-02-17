@@ -697,21 +697,26 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
-    //assim is assimilation of previous runs
-    var assim=[];
+    //previous is the previous runs
+    var previous;
     return function(){
+      // console.log('call count is:' ,func.callCount);
       var g=new Date();
+      var time=g.getTime();
       // func.callCount
-      assim.push(g.getTime());
-      console.log('arg',g.getTime(),'call count',func.callCount,assim);
-      console.log('g',g.getTime(),'previous',assim[assim.length-2]);
+      // console.log('arg',g.getTime(),previous);
+      // console.log('g',time,'previous',previous,'time-previous',time-previous,'time%wait',time%wait);
       if (func.callCount===0){
+        previous=time;
         return func();
       }
       else{
-        if (g.getTime()-assim[assim.length-2]>100 || (g.getTime()-assim[assim.length-2]<g.getTime()%wait))
+        if (time-previous>100 || (time%wait<previous%wait)){
+          previous=time;
           return func();
+          }
       }
+      previous=time;
     };
     // var arr=Array.prototype.slice.call(arguments));
     // console.log(setTimeout(func,wait));

@@ -138,10 +138,19 @@
         setTimeout(fn, 100); // called
         setTimeout(fn, 150);
         setTimeout(fn, 199);
+        clock.tick(200);
+        expect(callback).to.have.been.calledTwice;
+      });
+      it('should return a function callable thrice in the first 200ms', function() {
+        var fn = _.throttle(callback, 100);
+        fn(); // called
+        clock.tick(0);
+        setTimeout(fn, 50);
+        setTimeout(fn, 100); // called
+        setTimeout(fn, 150);
+        setTimeout(fn, 199);
         setTimeout(fn, 249);
-        console.log(callback.callCount);
         clock.tick(300);
-        console.log(callback.callCount);
         expect(callback).to.have.been.calledThrice;
       });
     });
