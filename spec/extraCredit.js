@@ -153,6 +153,27 @@
         clock.tick(300);
         expect(callback).to.have.been.calledThrice;
       });
+      it('should pass original arguments to throttled function, and return the most recent value of original function', function() {
+        var counter = 0;
+        var increment = function() {
+          return counter += 1;
+        };
+
+        // Create a function called throttledIncrement. This function can be called at
+        // most once every 100ms
+        var throttledIncrement = _.throttle(increment, 100);
+
+        throttledIncrement(); // return 1; `counter` should now be 1
+        expect(counter).to.eql(1);
+        throttledIncrement(); // return 1; schedule `increment()` call in 100ms
+        expect(counter).to.eql(1);
+        throttledIncrement(); // return 1; should do nothing
+        expect(counter).to.eql(1);
+        // Wait 100 ms; `increment` is called
+        clock.tick(101);
+        throttledIncrement();
+        expect(counter).to.eql(2);
+      });
     });
   });
 }());

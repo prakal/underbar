@@ -696,24 +696,40 @@
   // on this function.
   //
   // Note: This is difficult! It may take a while to implement.
+  // I need to write it so that if the function is throttled, it returns the memoized version rather than nothing at all which it currently returns.
   _.throttle = function(func, wait) {
     //previous is the previous runs
     var previous;
     return function(){
       // console.log('call count is:' ,func.callCount);
+      // console.log('args',arguments);
       var g=new Date();
       var time=g.getTime();
-      // func.callCount
+      var result;
+      console.log('callcount',func.callCount);
+      console.log('func',func);
+      console.log('prev',previous);
+      console.log('result',result);
       // console.log('arg',g.getTime(),previous);
       // console.log('g',time,'previous',previous,'time-previous',time-previous,'time%wait',time%wait);
+      
+      // method for non-sinon functions (no call count)
       if (func.callCount===0){
         previous=time;
-        return func();
+        result=func.apply(this,arguments);
+        return result;
       }
       else{
+        if (previous===undefined && func.callCount===undefined){
+          result=func.apply(this,arguments);
+          console.log('triggered');
+          previous=time;
+          return result;
+        }
         if (time-previous>100 || (time%wait<previous%wait)){
           previous=time;
-          return func();
+          result=func.apply(this,arguments);
+          return result;
           }
       }
       previous=time;
